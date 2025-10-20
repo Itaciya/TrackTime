@@ -12,6 +12,28 @@ CREATE TABLE Stations (
   location VARCHAR(100)
 );
 
+-- Passengers
+CREATE TABLE Passengers (
+  passenger_id INT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  num CHAR(15)
+);
+
+-- MetroPass
+CREATE TABLE MetroPass (
+  pass_id INT PRIMARY KEY AUTO_INCREMENT,
+  passenger_id INT,
+  full_name VARCHAR(100) NOT NULL,
+  nid_number VARCHAR(20) UNIQUE NOT NULL,
+  phone CHAR(15) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+  pass_type VARCHAR(30),
+  balance DECIMAL(10,2) DEFAULT 0.00,
+  FOREIGN KEY (passenger_id) REFERENCES Passengers(passenger_id) ON DELETE CASCADE
+);
+
 -- Schedules
 CREATE TABLE Schedules (
   schedule_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -31,14 +53,6 @@ CREATE TABLE Delays (
   reason VARCHAR(100),
   delay_date DATE,
   FOREIGN KEY (schedule_id) REFERENCES Schedules(schedule_id) ON DELETE CASCADE
-);
-
--- Passengers
-CREATE TABLE Passengers (
-  passenger_id INT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  num CHAR(15)
 );
 
 -- Alerts
@@ -74,18 +88,4 @@ CREATE TABLE Routes (
   FOREIGN KEY (train_id) REFERENCES Trains(train_id),
   FOREIGN KEY (start_station_id) REFERENCES Stations(station_id),
   FOREIGN KEY (end_station_id) REFERENCES Stations(station_id)
-);
-
--- MetroPass
-CREATE TABLE MetroPass (
-  pass_id INT PRIMARY KEY AUTO_INCREMENT,
-  passenger_id INT,
-  full_name VARCHAR(100) NOT NULL,
-  nid_number VARCHAR(20) UNIQUE NOT NULL,
-  phone CHAR(15) NOT NULL,
-  email VARCHAR(100) NOT NULL,
-  registration_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-  pass_type VARCHAR(30),
-  balance DECIMAL(10,2) DEFAULT 0.00,
-  FOREIGN KEY (passenger_id) REFERENCES Passengers(passenger_id) ON DELETE CASCADE
 );
