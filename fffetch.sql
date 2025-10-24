@@ -3,9 +3,7 @@ select * from Passengers;
 
 select alert_message,alert_type,alert_time from Alerts where passenger_id=5;
 
-SELECT * 
-FROM Alerts
-ORDER BY alert_time ASC;
+
 
 UPDATE Alerts
 SET alert_type = 'Resolved'
@@ -38,4 +36,5 @@ JOIN Delays d
   left JOIN MetroPass m
    ON p.passenger_id=m.passenger_id WHERE m.passenger_id IS NULL;
 HAVING SUM(d.delay_minutes) > 10;
+
 
