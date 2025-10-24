@@ -1,5 +1,4 @@
-DELETE FROM Stations
-WHERE location = 'Uttara, Dhaka' OR location = 'Mirpur, Dhaka';
+
 SELECT * FROM Stations;
 
 UPDATE Stations
