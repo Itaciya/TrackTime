@@ -51,7 +51,12 @@ INSERT INTO Passengers (passenger_id, name, email, num) VALUES
 (12, 'Liton Das', 'liton@example.com', '01710000012'),
 (13, 'Mina Chowdhury', 'mina@example.com', '01710000013'),
 (14, 'Nashit Hossain', 'nashit@example.com', '01710000014'),
-(15, 'Oliya Rahman', 'oliya@example.com', '01710000015');
+(15, 'Oliya Rahman', 'oliya@example.com', '01710000015'),
+(16, 'Rana Sarker', 'rana@example.com', '01710000016'),
+(17, 'Sadia Noor', 'sadia@example.com', '01710000017'),
+(18, 'Tariq Hossain', 'tariq@example.com', '01710000018'),
+(19, 'Fariha Akter', 'fariha@example.com', '01710000019'),
+(20, 'Zahin Ahmed', 'zahin@example.com', '01710000020');
 
 -- MetroPass
 INSERT INTO MetroPass (passenger_id, full_name, nid_number, phone, email, pass_type, balance) VALUES
