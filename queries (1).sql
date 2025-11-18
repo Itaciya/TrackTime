@@ -258,63 +258,102 @@ INSERT INTO CrowdMonitoring (station_id, crowd_level, report_time, remarks) VALU
 (15, 'Low', '2025-10-20 20:00:00', 'End of day quietness');
 
 -- fetch
+
+-- Find all station records
 SELECT * FROM Stations;
 
+
+-- Update station name from Farmgate to Farmgate Metro
 UPDATE Stations
 SET name = 'Farmgate Metro'
 WHERE name = 'Farmgate';
+
+-- Find stations again to verify the updated name
 SELECT * FROM Stations;
 
+
+-- Rename column 'name' to 'train_name' in Trains table
 ALTER TABLE Trains
 RENAME COLUMN name TO train_name;
+
+-- Find all train records after renaming column
 SELECT * FROM Trains;
 
+
+-- Find trains sorted by highest capacity first
 SELECT * FROM Trains
 ORDER BY capacity DESC;
 
+
+-- Find each station and the total number of crowd reports linked to it
 SELECT s.name AS station_name, COUNT(c.crowd_id) AS total_reports
 FROM CrowdMonitoring c
 JOIN Stations s ON c.station_id = s.station_id
 GROUP BY s.name;
 
+
+-- Find all route details
 SELECT * FROM Routes;
 
+
+-- Find 2 unique metro pass types from MetroPass
 SELECT DISTINCT pass_type
 FROM MetroPass
 LIMIT 2;
 
+
+-- Find routes with distance between 20 and 30 km, sorted by shortest estimated time
 SELECT route_id, total_distance_km, estimated_time_minutes
 FROM Routes
 WHERE total_distance_km BETWEEN 20 AND 30
 ORDER BY estimated_time_minutes ASC;
 
+
+-- Find passengers with balance < 300 OR RAPID pass type, sorted by highest balance
 SELECT full_name, pass_type, balance
 FROM MetroPass
 WHERE balance < 300 OR pass_type = 'RAPID'
 ORDER BY balance DESC;
 
+
+-- Find all schedules with delay between 5 and 10 minutes including reasons
 SELECT s.schedule_id, d.delay_minutes, d.reason
 FROM Schedules s
 JOIN Delays d ON s.schedule_id = d.schedule_id
 WHERE d.delay_minutes BETWEEN 5 AND 10;
-select * from Passengers;
-
-select alert_message,alert_type,alert_time from Alerts where passenger_id=5;
 
 
+-- Find all passengers
+SELECT * FROM Passengers;
 
+
+-- Find all alerts for passenger with ID = 5
+SELECT alert_message, alert_type, alert_time 
+FROM Alerts 
+WHERE passenger_id = 5;
+
+
+-- Update all alerts having type 'Delay Notice' to 'Resolved'
 UPDATE Alerts
 SET alert_type = 'Resolved'
 WHERE alert_type = 'Delay Notice';
 
-select * FROM Alerts WHERE alert_type = 'Resolved';
+-- Find all alerts that are now marked as 'Resolved'
+SELECT * FROM Alerts 
+WHERE alert_type = 'Resolved';
 
+
+-- Update phone numbers starting with 0171 by prefixing '88'
 UPDATE Passengers
 SET num = CONCAT('88', num)
 WHERE num LIKE '0171%';
 
-select passenger_id,name,num from Passengers;
+-- Find all passengers with updated phone numbers
+SELECT passenger_id, name, num 
+FROM Passengers;
 
+
+-- Find alerts along with their linked delay details
 SELECT 
     a.alert_id,
     a.alert_message,
@@ -325,11 +364,14 @@ SELECT
 FROM Alerts a
 JOIN Delays d
     ON a.delay_id = d.delay_id;
-    
-  SELECT
+
+
+-- Find passengers who do NOT have a MetroPass (left join null check)
+SELECT
   p.passenger_id,
   p.name,
   m.pass_id
-  FROM Passengers p
-  left JOIN MetroPass m
-   ON p.passenger_id=m.passenger_id WHERE m.passenger_id IS NULL;
+FROM Passengers p
+LEFT JOIN MetroPass m
+   ON p.passenger_id = m.passenger_id 
+WHERE m.passenger_id IS NULL;
